@@ -58,5 +58,7 @@ app.put('/:id', async (req, res) => {
 
 app.delete('/:id', (req, res) => {
     const { id } = req.params;
-    res.send(`Delete employee with ID: ${id}`);
+    employeeModel.deleteOne({ _id: id }).then(() => {
+        res.send(`Employee with ID: ${id} deleted`);
+    });
 });
