@@ -3,14 +3,6 @@ const express = require('express');
 
 const app = express();
 
-const mongooseSchema = mongoose.Schema;
-const employeeSchema = new mongooseSchema({
-    _id: mongoose.Schema.Types.ObjectId,
-    name: String,
-    city: String
-});
-const employeeModel = mongoose.model('Employee', employeeSchema);
-
 // Middleware to parse JSON bodies
 app.use(express.json());
 
