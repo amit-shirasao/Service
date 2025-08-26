@@ -48,10 +48,12 @@ app.post('/', (req, res) => {
         .then(employee => res.send(`Employee created: ${JSON.stringify(employee)}`))
 });
 
-app.put('/:id', (req, res) => {
+app.put('/:id', async (req, res) => {
     const { id } = req.params;
     const updatedEmployee = req.body;
-    res.send(`Update employee with ID ${id}: ${JSON.stringify(updatedEmployee)}`);
+    await employeeModel.updateOne({ _id: id }, { $set: updatedEmployee }).then(() => {
+        res.send(`Employee with ID: ${id} updated`);
+    });
 });
 
 app.delete('/:id', (req, res) => {
