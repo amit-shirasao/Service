@@ -31,7 +31,14 @@ app.get('/', (req, res) => {
 
 app.get('/:id', (req, res) => {
     const { id } = req.params;
-    res.send(`Get employee with ID: ${id}`);
+    employeeModel.findById(id)
+        .then(employee => {
+            if (employee) {
+                res.send(employee);
+            } else {
+                res.status(404).send('Employee not found');
+            }
+        });
 });
 
 app.post('/', (req, res) => {
