@@ -1,12 +1,28 @@
+const mongoose = require('mongoose');
 const express = require('express');
 
 const app = express();
 
+const mongooseSchema = mongoose.Schema;
+const employeeSchema = new mongooseSchema({
+    _id: mongoose.Schema.Types.ObjectId,
+    name: String,
+    city: String
+});
+const employeeModel = mongoose.model('Employee', employeeSchema);
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.listen(4000, () => {
-    console.log('Express app listening on port 4000');
+const mongoDbEmployeeClusterUrl = 'mongodb+srv://amitshirasao:NheQWnPzz5GF0ges@employee.3dve12s.mongodb.net/';
+mongoose.connect(mongoDbEmployeeClusterUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(4000, () => {
+        console.log('Express app listening on port 4000');
+    });
 });
 
 app.get('/', (req, res) => {
@@ -14,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:id', (req, res) => {
-    const { id } = req.params;      
+    const { id } = req.params;
     res.send(`Get employee with ID: ${id}`);
 });
 
