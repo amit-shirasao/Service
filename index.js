@@ -25,7 +25,8 @@ mongoose.connect(mongoDbEmployeeClusterUrl, {
 });
 
 app.get('/', (req, res) => {
-    res.send('Get all employees.');
+    employeeModel.find()
+        .then(employees => res.send(employees));
 });
 
 app.get('/:id', (req, res) => {
