@@ -6,6 +6,13 @@ const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+const employeeSchema = new mongoose.Schema({
+    name: String,
+    city: String
+});
+
+const employeeModel = mongoose.model('Employee', employeeSchema);
+
 const mongoDbEmployeeClusterUrl = 'mongodb+srv://amitshirasao:NheQWnPzz5GF0ges@employee.3dve12s.mongodb.net/';
 mongoose.connect(mongoDbEmployeeClusterUrl, {
     useNewUrlParser: true,
@@ -28,7 +35,9 @@ app.get('/:id', (req, res) => {
 
 app.post('/', (req, res) => {
     const newEmployee = req.body;
-    res.send(`Add new employee: ${JSON.stringify(newEmployee)}`);
+
+    employeeModel.create(newEmployee)
+        .then(employee => res.send(`Employee created: ${JSON.stringify(employee)}`))
 });
 
 app.put('/:id', (req, res) => {
